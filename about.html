@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ECE4DB">
+<title>About Us — MYSTIQUE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ECE4DB;
+    --card:#FBF8F3;
+    --ink:#211D19;
+    --ink-soft:#4A413A;
+    --muted:#6E655B;
+    --taupe:#9B8B7C;
+    --line:#E6DCD0;
+    --line-soft:#D9CDBF;
+    --btn:#231F1B;
+    --btn-ink:#F4EEE7;
+    --dot:#CCBEAE;
+    --thumb-a:#DBD1C5;
+    --thumb-b:#C8BBAB;
+    --foot:#E4DACE;
+    --deep:#6B5C4D;               /* warm mocha block behind the pull quote */
+    --serif:"Playfair Display", Georgia, serif;
+    --sans:"Mulish", system-ui, -apple-system, sans-serif;
+    --maxw:460px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:#cfc6ba;            /* neutral backdrop outside the mobile column (desktop only) */
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;}
+
+  /* mobile column */
+  .app{
+    max-width:var(--maxw);
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--bg);
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* shared bits */
+  .twinkle{display:block;color:currentColor;}
+  .lbl{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:18px;
+    border:0;
+    border-radius:999px;
+    cursor:pointer;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    font-weight:700;
+    font-size:12px;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn svg{flex:none;}
+  .btn:active{transform:translateY(1px) scale(.99);}
+  .btn-dark{
+    background:var(--btn);
+    color:var(--btn-ink);
+    padding:17px 30px;
+    box-shadow:0 14px 30px rgba(35,31,27,.28);
+  }
+  .btn-light{
+    background:#FBF7F1;
+    color:var(--ink);
+    padding:15px 28px;
+    box-shadow:0 12px 28px rgba(35,31,27,.20);
+  }
+
+  :where(a,button):focus-visible{
+    outline:2px solid var(--ink);
+    outline-offset:3px;
+    border-radius:6px;
+  }
+
+  /* ---------- HEADER (over photo, white) ---------- */
+  .topbar{
+    position:absolute;
+    inset:0 0 auto 0;
+    z-index:9;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 22px;
+    color:#FBF6F0;
+  }
+  .icon-btn{
+    background:transparent;border:0;padding:4px;color:inherit;cursor:pointer;line-height:0;
+    filter:drop-shadow(0 1px 6px rgba(40,33,27,.35));
+  }
+  .brand{text-align:center;line-height:1;filter:drop-shadow(0 1px 8px rgba(40,33,27,.35));}
+  .brand .name{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:.16em;padding-left:.16em;}
+  .brand .sub{display:block;margin-top:5px;font-size:8px;letter-spacing:.34em;font-weight:600;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    z-index:1;
+    aspect-ratio:1/2;             /* 2:1 vertical:horizontal */
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:0 30px;
+    color:#FBF6F0;
+    background:
+      linear-gradient(180deg, rgba(40,33,27,.40) 0%, rgba(40,33,27,.22) 50%, rgba(40,33,27,.40) 100%),
+      url('images/about-hero.jpg') center / cover no-repeat,
+      linear-gradient(150deg, var(--thumb-a), var(--thumb-b));
+  }
+  .hero-inner{text-align:center;}     /* sits dead-center in the frame, both axes */
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:37px;
+    line-height:1.08;
+    letter-spacing:-.005em;
+    margin:0;
+    text-shadow:0 2px 16px rgba(40,33,27,.38);
+  }
+  .hero .sub{
+    margin:18px 0 0;
+    font-size:14.5px;
+    font-weight:500;
+    letter-spacing:.05em;
+    line-height:1.9;
+    color:#F2EAE2;
+    text-shadow:0 1px 12px rgba(40,33,27,.32);
+  }
+  .hero .sub span{display:block;}
+  .hero .twinkle{color:#FBF6F0;width:18px;margin:20px auto 0;filter:drop-shadow(0 1px 6px rgba(40,33,27,.3));}
+
+  /* ---------- STATEMENT (Mission / Vision) ---------- */
+  .statement{
+    background:var(--bg);
+    text-align:center;
+    padding:52px 36px 46px;
+  }
+  /* cream panel laps gently over the photo above it — the house "card over photo" move */
+  .statement.lap{
+    position:relative;
+    z-index:2;
+    margin-top:-28px;
+    border-radius:30px 30px 0 0;
+  }
+  .statement p.body{
+    font-size:14.5px;
+    line-height:1.72;
+    font-weight:500;
+    color:var(--ink-soft);
+    margin:18px auto 0;
+    max-width:21em;
+  }
+  .statement .twinkle{color:var(--taupe);width:18px;margin:26px auto 0;}
+
+  /* ---------- FULL-BLEED SHOT (between Mission & Vision) ---------- */
+  .shot{
+    position:relative;
+    z-index:1;
+    aspect-ratio:1/0.8;
+    overflow:hidden;
+    background:linear-gradient(150deg,var(--thumb-a),var(--thumb-b));
+  }
+  .shot img{width:100%;height:100%;object-fit:cover;}
+
+  /* ---------- OUR WORLD (instagram reels strip) ---------- */
+  .world{
+    position:relative;
+    z-index:1;
+    background:var(--bg);
+    text-align:center;
+    padding:48px 0 46px;
+  }
+  .world .lbl{padding:0 36px;margin-bottom:22px;}
+  .strip-wrap{position:relative;}
+  /* mocha band sits behind the reel row only — same brown as the pull quote,
+     reaching further above and below the actual reel-tile height
+     (122px wide tile at 9:16 = ~217px tall, so band = 217 + 40 = 257px) */
+  .strip-wrap::before{
+    content:"";
+    position:absolute;
+    left:0;right:0;
+    top:50%;
+    height:257px;
+    transform:translateY(-50%);
+    background:var(--deep);
+    z-index:0;
+  }
+  .strip{
+    position:relative;
+    z-index:1;
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    padding:2px 18px 6px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .strip::-webkit-scrollbar{display:none;}
+  .track{display:flex;gap:12px;flex:none;}
+  .reel{
+    position:relative;
+    flex:none;
+    width:122px;
+    aspect-ratio:9/16;            /* reels are vertical-video shaped */
+    border-radius:16px;
+    overflow:hidden;
+    background:linear-gradient(150deg,var(--thumb-a),var(--thumb-b));
+    box-shadow:0 10px 24px rgba(74,61,48,.10);
+  }
+  .reel img{
+    width:100%;height:100%;
+    object-fit:cover;
+  }
+  .reel .play{
+    position:absolute;
+    left:9px;bottom:9px;
+    width:22px;height:22px;
+    color:#FBF6F0;
+    filter:drop-shadow(0 1px 4px rgba(0,0,0,.45));
+  }
+  .reel .badge{
+    position:absolute;
+    left:9px;bottom:9px;
+    font-size:9.5px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#211D19;
+    background:#FBF6F0;
+    padding:4px 8px;
+    border-radius:999px;
+  }
+  .handle{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:26px;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.08em;
+    color:var(--ink);
+  }
+  .handle svg{flex:none;}
+
+  /* ---------- CTA (photo + scrim, white text) ---------- */
+  .cta{
+    position:relative;
+    z-index:1;
+    aspect-ratio:1/1.18;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:flex-start;
+    padding:0 32px 46px;
+    color:#FBF6F0;
+    background:
+      linear-gradient(180deg, rgba(40,33,27,.05) 0%, rgba(40,33,27,.22) 52%, rgba(40,33,27,.56) 100%),
+      url('images/about-cta.jpg') center calc(50% + 60px) / cover no-repeat,
+      linear-gradient(150deg, var(--thumb-a), var(--thumb-b));
+  }
+  .cta h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:31px;
+    line-height:1.12;
+    margin:0;
+    text-shadow:0 1px 14px rgba(40,33,27,.4);
+  }
+  .cta .sub{
+    font-size:13.5px;
+    line-height:1.6;
+    color:#F1E9E1;
+    margin:16px 0 26px;
+    max-width:18em;
+    text-shadow:0 1px 12px rgba(40,33,27,.34);
+  }
+
+  /* gentle load-in, disabled for reduced-motion */
+  @media (prefers-reduced-motion:no-preference){
+    .app > *{animation:rise .7s ease both;}
+    .statement{animation-delay:.05s;}
+    .world{animation-delay:.1s;}
+    .cta{animation-delay:.15s;}
+    @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  }
+
+  /* ---------- SITE FOOTER (brand + social) ---------- */
+  .site-foot{
+    background:var(--foot);
+    text-align:center;
+    padding:38px 26px 30px;
+  }
+  .site-foot .name{font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:.16em;padding-left:.16em;color:var(--ink);}
+  .site-foot .sub{display:block;margin-top:7px;font-size:8.5px;letter-spacing:.34em;font-weight:600;color:var(--muted);}
+  .site-foot .orn{color:var(--taupe);width:70px;margin:16px auto 14px;display:block;}
+  .site-foot .tag{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 22px;}
+  .site-foot .social{display:flex;justify-content:center;gap:14px;margin-bottom:22px;}
+  .site-foot .social a{
+    width:40px;height:40px;
+    border-radius:50%;
+    border:1.3px solid var(--line-soft);
+    display:grid;
+    place-items:center;
+    color:var(--ink-soft);
+    transition:color .18s ease, border-color .18s ease;
+  }
+  .site-foot .social a:hover{color:var(--ink);border-color:var(--taupe);}
+  .site-foot .copyright{font-size:11px;color:var(--muted);margin:0;}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <button class="icon-btn" aria-label="Open menu">
+      <svg width="26" height="16" viewBox="0 0 26 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <line x1="1" y1="2.5" x2="25" y2="2.5"/><line x1="1" y1="8" x2="25" y2="8"/><line x1="1" y1="13.5" x2="25" y2="13.5"/>
+      </svg>
+    </button>
+
+    <a class="brand" href="index.html" aria-label="MYSTIQUE home">
+      <span class="name">MYSTIQUE</span>
+      <span class="sub">925 SILVER JEWELLERY</span>
+    </a>
+
+    <button class="icon-btn" aria-label="Shopping bag">
+      <svg width="24" height="26" viewBox="0 0 26 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+        <path d="M5 9 H21 L19.7 25 A1.5 1.5 0 0 1 18.2 26.3 H7.8 A1.5 1.5 0 0 1 6.3 25 Z"/>
+        <path d="M8.7 9 V6.5 A4.3 4.3 0 0 1 17.3 6.5 V9"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Jewellery That<br>Feels Personal.</h1>
+      <p class="sub"><span>Minimal.</span><span>Elegant.</span><span>Yours.</span></p>
+      <svg class="twinkle" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M9 1.5 Q10 7 15 8 Q10 9 9 14.5 Q8 9 3 8 Q8 7 9 1.5 Z" fill="currentColor"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="statement lap" aria-labelledby="mission-lbl">
+    <p class="lbl" id="mission-lbl">Our Mission</p>
+    <p class="body">To create lightweight, premium silver jewellery that feels luxurious yet remains accessible for everyday wear.</p>
+    <svg class="twinkle" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9 1.5 Q10 7 15 8 Q10 9 9 14.5 Q8 9 3 8 Q8 7 9 1.5 Z" fill="currentColor"/>
+    </svg>
+  </section>
+
+  <!-- FULL-BLEED SHOT -->
+  <div class="shot">
+    <img src="images/about-craft.jpg" alt="Silver necklaces resting on a stone surface">
+  </div>
+
+  <!-- VISION -->
+  <section class="statement lap" aria-labelledby="vision-lbl">
+    <p class="lbl" id="vision-lbl">Our Vision</p>
+    <p class="body">To become the go-to destination for everyday designer jewellery — where every style begins with Mystique Silver.</p>
+    <svg class="twinkle" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9 1.5 Q10 7 15 8 Q10 9 9 14.5 Q8 9 3 8 Q8 7 9 1.5 Z" fill="currentColor"/>
+    </svg>
+  </section>
+
+  <!-- OUR WORLD -->
+  <section class="world" aria-labelledby="world-lbl">
+    <p class="lbl" id="world-lbl">Our World</p>
+    <div class="strip-wrap">
+    <div class="strip" id="worldStrip">
+      <!-- Each tile links straight to its real reel/post on Instagram.
+           Swap each img src for that item's thumbnail — see the note below the code for naming.
+           The whole set below is duplicated once (id="worldTrack") so the auto-scroll
+           script can loop seamlessly from the end of copy 2 back to the start of copy 1. -->
+      <div class="track" id="worldTrack">
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DVvkC1sDIjO/" target="_blank" rel="noopener" aria-label="Watch reel 1 on Instagram">
+          <img src="images/reel-1.jpg" alt="MYSTIQUE Instagram reel thumbnail 1">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DVQMc8giDLC/" target="_blank" rel="noopener" aria-label="Watch reel 2 on Instagram">
+          <img src="images/reel-2.jpg" alt="MYSTIQUE Instagram reel thumbnail 2">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DVFpAG1DHcH/" target="_blank" rel="noopener" aria-label="Watch reel 3 on Instagram">
+          <img src="images/reel-3.jpg" alt="MYSTIQUE Instagram reel thumbnail 3">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DYEpp5Wg-Ev/" target="_blank" rel="noopener" aria-label="Watch reel 4 on Instagram">
+          <img src="images/reel-4.jpg" alt="MYSTIQUE Instagram reel thumbnail 4">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DWyGOdfjDWT/" target="_blank" rel="noopener" aria-label="Watch reel 5 on Instagram">
+          <img src="images/reel-5.jpg" alt="MYSTIQUE Instagram reel thumbnail 5">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/reel/DUM8S2EiPwJ/" target="_blank" rel="noopener" aria-label="Watch reel 6 on Instagram">
+          <img src="images/reel-6.jpg" alt="MYSTIQUE Instagram reel thumbnail 6">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/reel/DVIKkjKiOLk/" target="_blank" rel="noopener" aria-label="Watch reel 7 on Instagram">
+          <img src="images/reel-7.jpg" alt="MYSTIQUE Instagram reel thumbnail 7">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/p/DVSz1TmDN4X/" target="_blank" rel="noopener" aria-label="View post 8 on Instagram">
+          <img src="images/post-8.jpg" alt="MYSTIQUE Instagram post thumbnail 8">
+          <span class="badge">Post</span>
+        </a>
+      </div>
+      <!-- exact duplicate, aria-hidden so screen readers only announce the real set once -->
+      <div class="track" aria-hidden="true">
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DVvkC1sDIjO/" tabindex="-1">
+          <img src="images/reel-1.jpg" alt="">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DVQMc8giDLC/" tabindex="-1">
+          <img src="images/reel-2.jpg" alt="">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DVFpAG1DHcH/" tabindex="-1">
+          <img src="images/reel-3.jpg" alt="">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DYEpp5Wg-Ev/" tabindex="-1">
+          <img src="images/reel-4.jpg" alt="">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/mystiquesilver_official/reel/DWyGOdfjDWT/" tabindex="-1">
+          <img src="images/reel-5.jpg" alt="">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/reel/DUM8S2EiPwJ/" tabindex="-1">
+          <img src="images/reel-6.jpg" alt="">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/reel/DVIKkjKiOLk/" tabindex="-1">
+          <img src="images/reel-7.jpg" alt="">
+          <svg class="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 L19 12 L7 19.5 Z"/></svg>
+        </a>
+        <a class="reel" href="https://www.instagram.com/p/DVSz1TmDN4X/" tabindex="-1">
+          <img src="images/post-8.jpg" alt="">
+          <span class="badge">Post</span>
+        </a>
+      </div>
+    </div>
+    </div>
+    <a class="handle" href="https://www.instagram.com/mystiquesilver_official/" target="_blank" rel="noopener" aria-label="Visit MYSTIQUE on Instagram">
+      @mystiquesilver_official
+      <svg width="20" height="12" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- Auto-advances the reel strip to the right at a steady pace. The track is
+       duplicated above (#worldTrack + its hidden twin) so once the position passes
+       the width of one copy, it's snapped back by exactly that width — visually
+       seamless since copy 2 is pixel-identical to copy 1. Pauses only while the
+       person is actively touching/dragging (not just hovering), and respects
+       reduced-motion. Position is tracked in a separate float variable rather
+       than written straight to scrollLeft each frame, because scrollLeft rounds
+       to whole pixels — adding a sub-pixel amount directly to it is a no-op. -->
+  <script>
+  (function(){
+    var strip = document.getElementById('worldStrip');
+    var track = document.getElementById('worldTrack');
+    if(!strip || !track) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var paused = false;
+    var speed = 0.225; // px per frame, ~13.5px/sec at 60fps — 2x previous speed
+    var pos = strip.scrollLeft;
+
+    ['pointerdown','touchstart'].forEach(function(evt){
+      strip.addEventListener(evt, function(){ paused = true; }, {passive:true});
+    });
+    ['pointerup','touchend'].forEach(function(evt){
+      strip.addEventListener(evt, function(){
+        // small delay before resuming so a finished swipe doesn't jump,
+        // and resync pos to wherever the manual swipe left scrollLeft
+        setTimeout(function(){ pos = strip.scrollLeft; paused = false; }, 1200);
+      }, {passive:true});
+    });
+
+    function tick(){
+      if(!paused){
+        var loopWidth = track.scrollWidth + 12; // +gap between the two track copies
+        pos += speed;
+        if(pos >= loopWidth){ pos -= loopWidth; }
+        strip.scrollLeft = Math.round(pos);
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+  </script>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Begin Your Story<br>With Mystique.</h2>
+    <p class="sub">925 Silver Jewellery Designed To Stay.</p>
+    <a class="btn btn-light" href="collection.html">
+      View Collection
+      <svg width="26" height="14" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/>
+      </svg>
+    </a>
+  </section>
+
+
+  <!-- SITE FOOTER -->
+  <footer class="site-foot">
+    <div class="name">MYSTIQUE</div>
+    <span class="sub">925 SILVER JEWELLERY</span>
+    <svg class="orn" viewBox="0 0 70 12" fill="none" aria-hidden="true">
+      <line x1="6" y1="6" x2="28" y2="6" stroke="currentColor" stroke-width="1"/>
+      <path d="M35 1 Q36 5 40 6 Q36 7 35 11 Q34 7 30 6 Q34 5 35 1 Z" fill="currentColor"/>
+      <line x1="42" y1="6" x2="64" y2="6" stroke="currentColor" stroke-width="1"/>
+    </svg>
+    <p class="tag">Made to Shine, Made for You.</p>
+
+    <div class="social">
+      <a href="https://www.instagram.com/mystiquesilver_official/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://wa.me/918850813570" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 19 L6.2 15.6 A7 7 0 1 1 8.4 17.8 Z"/>
+          <path d="M9.9 9.6 C9.9 13 11.4 14.4 14.4 14.5 L14.4 12.8 L12.8 12.2 L11.9 12.9 C11.1 12.4 10.9 11.6 10.9 11.6 L11.6 10.6 L11 9.2 Z" stroke-width="1"/>
+        </svg>
+      </a>
+    </div>
+
+    <p class="copyright">© 2026 MYSTIQUE. All rights reserved.</p>
+  </footer>
+
+</div>
+</body>
+</html>

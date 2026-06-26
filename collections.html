@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EFE8DE">
+<title>Our Collections — MYSTIQUE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ECE4DB;
+    --paper:#F1EBE2;            /* light warm cream — the collections canvas */
+    --card:#FBF8F3;
+    --ink:#211D19;
+    --ink-soft:#4A413A;
+    --muted:#6E655B;
+    --taupe:#9B8B7C;
+    --line:#E6DCD0;
+    --line-soft:#CFC3B4;
+    --btn:#231F1B;
+    --btn-ink:#F4EEE7;
+    --thumb-a:#DBD1C5;
+    --thumb-b:#C8BBAB;
+    --foot:#E4DACE;
+    --serif:"Playfair Display", Georgia, serif;
+    --sans:"Mulish", system-ui, -apple-system, sans-serif;
+    --maxw:460px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:#cfc6ba;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;}
+
+  /* mobile card */
+  .app{
+    max-width:var(--maxw);
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--paper);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .twinkle{display:inline-block;color:var(--taupe);vertical-align:middle;}
+  :where(a,button):focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px;}
+
+  /* short editorial rule used under labels */
+  .rule{display:block;width:34px;height:1px;background:var(--ink);opacity:.85;}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:16px;
+    border:0;
+    border-radius:999px;
+    cursor:pointer;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-weight:700;
+    font-size:11.5px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn svg{flex:none;}
+  .btn:active{transform:translateY(1px) scale(.99);}
+  .btn-dark{
+    background:var(--btn);
+    color:var(--btn-ink);
+    padding:16px 30px;
+    box-shadow:0 14px 30px rgba(35,31,27,.26);
+  }
+
+  /* ---------- HEADER (dark, over light photo) ---------- */
+  .topbar{
+    position:absolute;
+    inset:0 0 auto 0;
+    z-index:9;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 24px 0;
+    color:var(--ink);
+  }
+  .icon-btn{
+    background:transparent;border:0;padding:4px;color:inherit;cursor:pointer;line-height:0;
+    filter:drop-shadow(0 1px 8px rgba(247,242,235,.6));
+  }
+  .brand{text-align:center;line-height:1;filter:drop-shadow(0 1px 8px rgba(247,242,235,.6));}
+  .brand .name{font-family:var(--serif);font-weight:500;font-size:21px;letter-spacing:.18em;padding-left:.18em;}
+  .brand .sub{display:block;margin-top:5px;font-size:8px;letter-spacing:.36em;font-weight:600;color:var(--ink-soft);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    z-index:1;
+    aspect-ratio:1/1.5;
+    clip-path:url(#waveHero);
+    background:
+      url('images/collections-hero.jpg') center / cover no-repeat,
+      linear-gradient(150deg, var(--thumb-a), var(--thumb-b));
+  }
+  .hero .htext{
+    position:absolute;
+    left:26px;
+    top:40%;
+    color:var(--ink);
+    max-width:74%;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:50px;
+    line-height:1.0;
+    letter-spacing:-.01em;
+    margin:0;
+  }
+  .hero h1 .tw1{width:16px;margin-left:6px;transform:translateY(-14px);}
+  .hero h1 .tw2{width:13px;margin-left:8px;transform:translateY(-2px);}
+  .hero p{
+    font-size:16px;
+    line-height:1.5;
+    font-weight:700;
+    color:var(--ink);
+    margin:18px 0 14px;
+    max-width:15em;
+  }
+
+  /* ---------- COLLECTION ROWS ---------- */
+  .row{
+    position:relative;
+    margin-top:-18px;
+    z-index:2;
+  }
+  .row .photo{
+    position:relative;
+    z-index:1;
+    width:100%;
+    aspect-ratio:1/0.72;
+    clip-path:url(#blobL);
+    background-color:var(--thumb-b);
+    background-repeat:no-repeat;
+    background-size:54% auto;
+    background-position:left center;
+  }
+  .row.rev .photo{
+    clip-path:url(#blobR);
+    background-position:right center;
+  }
+
+  .row .copy{
+    position:absolute;
+    z-index:2;
+    top:0;bottom:0;
+    right:0;
+    width:49%;
+    padding-right:20px;
+    padding-left:14px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .row.rev .copy{
+    right:auto;
+    left:0;
+    padding-right:14px;
+    padding-left:26px;
+  }
+
+  .num{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.18em;
+    color:var(--muted);
+    margin:0 0 12px;
+  }
+  .cname{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:31px;
+    line-height:1;
+    color:var(--ink);
+    margin:16px 0 0;
+  }
+  .cname .twinkle{width:14px;margin-left:8px;transform:translateY(-6px);}
+  .cdesc{
+    font-size:13px;
+    line-height:1.5;
+    color:var(--ink-soft);
+    font-weight:500;
+    margin:15px 0 20px;
+  }
+  .explore{
+    display:inline-flex;
+    align-items:center;
+    gap:11px;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin-bottom:11px;
+    white-space:nowrap;
+  }
+  .explore svg{flex:none;}
+
+  /* ---------- FOOTER ---------- */
+  .foot{
+    position:relative;
+    z-index:1;
+    margin-top:-52px;
+    background:var(--paper);
+    text-align:center;
+    padding:30px 26px 40px;
+  }
+  .foot .twinkle{width:16px;margin:0 auto 16px;display:block;}
+  .foot .lede{
+    font-size:13px;
+    letter-spacing:.04em;
+    color:var(--muted);
+    margin:0 0 8px;
+    font-weight:500;
+  }
+  .foot h2{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:31px;
+    line-height:1.1;
+    color:var(--ink);
+    margin:0 0 26px;
+  }
+
+  @media (prefers-reduced-motion:no-preference){
+    .app{animation:fade .8s ease both;}
+    @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  }
+
+  /* ---------- SITE FOOTER (brand + social) ---------- */
+  .site-foot{
+    background:var(--foot);
+    text-align:center;
+    padding:38px 26px 30px;
+  }
+  .site-foot .name{font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:.16em;padding-left:.16em;color:var(--ink);}
+  .site-foot .sub{display:block;margin-top:7px;font-size:8.5px;letter-spacing:.34em;font-weight:600;color:var(--muted);}
+  .site-foot .orn{color:var(--taupe);width:70px;margin:16px auto 14px;display:block;}
+  .site-foot .tag{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 22px;}
+  .site-foot .social{display:flex;justify-content:center;gap:14px;margin-bottom:22px;}
+  .site-foot .social a{
+    width:40px;height:40px;
+    border-radius:50%;
+    border:1.3px solid var(--line-soft);
+    display:grid;
+    place-items:center;
+    color:var(--ink-soft);
+    transition:color .18s ease, border-color .18s ease;
+  }
+  .site-foot .social a:hover{color:var(--ink);border-color:var(--taupe);}
+  .site-foot .copyright{font-size:11px;color:var(--muted);margin:0;}
+
+</style>
+</head>
+<body>
+
+<!-- responsive organic clip shapes (objectBoundingBox so they scale with each block) -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <clipPath id="waveHero" clipPathUnits="objectBoundingBox">
+      <path d="M0 0 H1 V0.94 C0.86 0.965 0.70 0.95 0.55 0.925 C0.43 0.905 0.34 0.86 0.22 0.875 C0.14 0.885 0.06 0.915 0 0.905 Z"/>
+    </clipPath>
+    <clipPath id="blobL" clipPathUnits="objectBoundingBox">
+      <path d="M0 0 C0.22 0.005 0.38 0.02 0.47 0.07 C0.52 0.13 0.535 0.30 0.535 0.50 C0.535 0.70 0.52 0.87 0.47 0.93 C0.38 0.98 0.22 0.995 0 1 Z"/>
+    </clipPath>
+    <clipPath id="blobR" clipPathUnits="objectBoundingBox">
+      <path d="M1 0 C0.78 0.005 0.62 0.02 0.53 0.07 C0.48 0.13 0.465 0.30 0.465 0.50 C0.465 0.70 0.48 0.87 0.53 0.93 C0.62 0.98 0.78 0.995 1 1 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <button class="icon-btn" aria-label="Open menu">
+      <svg width="26" height="16" viewBox="0 0 26 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <line x1="1" y1="2.5" x2="25" y2="2.5"/><line x1="1" y1="8" x2="25" y2="8"/><line x1="1" y1="13.5" x2="25" y2="13.5"/>
+      </svg>
+    </button>
+    <a class="brand" href="index.html" aria-label="MYSTIQUE home">
+      <span class="name">MYSTIQUE</span>
+      <span class="sub">SILVER</span>
+    </a>
+    <button class="icon-btn" aria-label="Shopping bag">
+      <svg width="24" height="26" viewBox="0 0 26 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+        <path d="M5 9 H21 L19.7 25 A1.5 1.5 0 0 1 18.2 26.3 H7.8 A1.5 1.5 0 0 1 6.3 25 Z"/>
+        <path d="M8.7 9 V6.5 A4.3 4.3 0 0 1 17.3 6.5 V9"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="htext">
+      <h1>Our<br>Collections</h1>
+      <p>Timeless designs,<br>made for every you.</p>
+      <span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- 01 NECKLACES (photo left) -->
+  <section class="row">
+    <div class="photo" style="background-image:url('images/collection-necklaces.jpg');background-position:-5px center;" role="img" aria-label="Model wearing a silver necklace"></div>
+    <div class="copy">
+      <p class="num">01</p>
+      <span class="rule"></span>
+      <h2 class="cname">Necklaces</h2>
+      <p class="cdesc">Subtle. Stunning.<br>Made to be close to you,<br>every single day.</p>
+      <a class="explore" href="necklaces.html">Explore Necklaces
+        <svg width="22" height="13" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/></svg>
+      </a>
+      <span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- 02 RINGS (photo right) -->
+  <section class="row rev">
+    <div class="photo" style="background-image:url('images/collection-rings.jpg');" role="img" aria-label="Model wearing stacked silver rings"></div>
+    <div class="copy">
+      <p class="num">02</p>
+      <span class="rule"></span>
+      <h2 class="cname">Rings</h2>
+      <p class="cdesc">Minimal rings,<br>maximum meaning.<br>Stack them. Wear them.<br>Make them yours.</p>
+      <a class="explore" href="rings.html">Explore Rings
+        <svg width="22" height="13" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/></svg>
+      </a>
+      <span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- 03 BRACELETS (photo left) -->
+  <section class="row">
+    <div class="photo" style="background-image:url('images/collection-bracelets.jpg');" role="img" aria-label="Model wearing a silver bracelet"></div>
+    <div class="copy">
+      <p class="num">03</p>
+      <span class="rule"></span>
+      <h2 class="cname">Bracelets</h2>
+      <p class="cdesc">Effortless details<br>that elevate<br>your everyday.</p>
+      <a class="explore" href="bracelets.html">Explore Bracelets
+        <svg width="22" height="13" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/></svg>
+      </a>
+      <span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- 04 EARRINGS (photo right) -->
+  <section class="row rev">
+    <div class="photo" style="background-image:url('images/collection-earrings.jpg');" role="img" aria-label="Model wearing silver hoop earrings"></div>
+    <div class="copy">
+      <p class="num">04</p>
+      <span class="rule"></span>
+      <h2 class="cname">Earrings</h2>
+      <p class="cdesc">Tiny or bold,<br>they frame you<br>in the perfect way.</p>
+      <a class="explore" href="earrings.html">Explore Earrings
+        <svg width="22" height="13" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/></svg>
+      </a>
+      <span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- 05 PENDANT SETS (photo left) -->
+  <section class="row">
+    <div class="photo" style="background-image:url('images/collection-pendant-sets.jpg');" role="img" aria-label="Model wearing a silver pendant set"></div>
+    <div class="copy">
+      <p class="num">05</p>
+      <span class="rule"></span>
+      <h2 class="cname">Pendant Sets</h2>
+      <p class="cdesc">Paired to perfection.<br>Wear the set or<br>style them apart.</p>
+      <a class="explore" href="pendant-sets.html">Explore Pendant Sets
+        <svg width="22" height="13" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/></svg>
+      </a>
+      <span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- 06 KADAS (photo right) -->
+  <section class="row rev">
+    <div class="photo" style="background-image:url('images/collection-kadas.jpg');" role="img" aria-label="Model wearing a silver kada"></div>
+    <div class="copy">
+      <p class="num">06</p>
+      <span class="rule"></span>
+      <h2 class="cname">Kadas</h2>
+      <p class="cdesc">Bold, traditional,<br>made to stack.<br>A statement<br>on every wrist.</p>
+      <a class="explore" href="kadas.html">Explore Kadas
+        <svg width="22" height="13" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/></svg>
+      </a>
+      <span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <svg class="twinkle" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M9 1 Q10.2 7.2 16 8 Q10.2 8.8 9 15 Q7.8 8.8 2 8 Q7.8 7.2 9 1 Z"/></svg>
+    <p class="lede">Designed to be lived in.</p>
+    <h2>Made by people who love it.</h2>
+    <a class="btn btn-dark" href="about.html">
+      About Mystique
+      <svg width="24" height="13" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="8" x2="24" y2="8"/><polyline points="18,2 24,8 18,14"/></svg>
+    </a>
+  </footer>
+
+
+  <!-- SITE FOOTER -->
+  <footer class="site-foot">
+    <div class="name">MYSTIQUE</div>
+    <span class="sub">925 SILVER JEWELLERY</span>
+    <svg class="orn" viewBox="0 0 70 12" fill="none" aria-hidden="true">
+      <line x1="6" y1="6" x2="28" y2="6" stroke="currentColor" stroke-width="1"/>
+      <path d="M35 1 Q36 5 40 6 Q36 7 35 11 Q34 7 30 6 Q34 5 35 1 Z" fill="currentColor"/>
+      <line x1="42" y1="6" x2="64" y2="6" stroke="currentColor" stroke-width="1"/>
+    </svg>
+    <p class="tag">Made to Shine, Made for You.</p>
+
+    <div class="social">
+      <a href="https://www.instagram.com/mystiquesilver_official/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://wa.me/918850813570" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 19 L6.2 15.6 A7 7 0 1 1 8.4 17.8 Z"/>
+          <path d="M9.9 9.6 C9.9 13 11.4 14.4 14.4 14.5 L14.4 12.8 L12.8 12.2 L11.9 12.9 C11.1 12.4 10.9 11.6 10.9 11.6 L11.6 10.6 L11 9.2 Z" stroke-width="1"/>
+        </svg>
+      </a>
+    </div>
+
+    <p class="copyright">© 2026 MYSTIQUE. All rights reserved.</p>
+  </footer>
+
+</div>
+</body>
+</html>
