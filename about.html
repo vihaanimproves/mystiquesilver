@@ -632,6 +632,146 @@
     .vmodal__card,.vmodal::before{transition:none;}
   }
 
+
+  /* ============================================================
+     TAP FEEDBACK — kill the blue mobile highlight, add tactile
+     press animations that match each control's design.
+     ============================================================ */
+
+  /* 1) Remove the default blue tap box on every interactive element */
+  a, button, input, textarea, select, [role="button"], .credit-link{
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  /* Buttons & links shouldn't be text-selectable on long-press (links keep it where natural) */
+  button, [role="button"], .btn, .ob, .btn-shop, .mnav__cta, .vmodal__btn,
+  .icon-btn, .mnav__close, .vmodal__close, .mnav__toggle, .explore, .credit-link{
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Keyboard focus stays visible (accessibility) — tap focus does not box */
+  :where(a, button, [role="button"]):focus:not(:focus-visible){ outline: none; }
+
+  /* ---- shared ripple layer (used by JS on press) ---- */
+  .tap-press{ position: relative; }
+  .tap-ink{
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 1;
+    pointer-events: none;
+    background: rgba(255,255,255,.30);  /* default: light bloom for dark buttons */
+    will-change: transform, opacity;
+    animation: tap-ink-anim .58s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  /* light-coloured buttons get a warm dark ink instead */
+  .btn-light .tap-ink, .btn-shop .tap-ink,
+  .ob.ig .tap-ink, .vmodal__btn.wa .tap-ink{
+    background: rgba(74,61,48,.16);
+  }
+  @keyframes tap-ink-anim{
+    0%{ transform: scale(0); opacity: 1; }
+    60%{ opacity: .55; }
+    100%{ transform: scale(1); opacity: 0; }
+  }
+
+  /* ----------------------------------------------------------------
+     2) PILL BUTTONS — press down + gentle squeeze, deepen shadow.
+     (.btn family, .ob, .btn-shop, .mnav__cta, .vmodal__btn)
+     These already had a faint scale; this unifies & enriches it.
+     ---------------------------------------------------------------- */
+  .btn, .ob, .btn-shop, .mnav__cta, .vmodal__btn, .explore{
+    transition: transform .2s cubic-bezier(.22,.6,.36,1),
+                box-shadow .25s ease, background .2s ease, color .2s ease,
+                border-color .2s ease, opacity .2s ease;
+  }
+  .btn:active, .ob:active, .btn-shop:active,
+  .mnav__cta:active, .vmodal__btn:active{
+    transform: translateY(1px) scale(.965);
+  }
+  /* dark pills: shadow collapses inward on press for a "pushed" feel */
+  .btn-dark:active, .ob.wa:active, .mnav__cta:active, .vmodal__btn.email:active{
+    box-shadow: 0 4px 12px rgba(35,31,27,.30);
+  }
+  /* light pills: faint inset tint on press */
+  .btn-light:active, .btn-shop:active, .ob.ig:active, .vmodal__btn.wa:active{
+    background: #EFE7DB;
+    box-shadow: inset 0 2px 8px rgba(74,61,48,.12);
+  }
+
+  /* ----------------------------------------------------------------
+     3) ROUND ICON BUTTONS — quick squeeze + a soft ring pulse.
+     (.icon-btn, .mnav__close, .vmodal__close)
+     ---------------------------------------------------------------- */
+  .icon-btn, .mnav__close, .vmodal__close{
+    position: relative;
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease;
+  }
+  .icon-btn::after, .mnav__close::after, .vmodal__close::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1.5px solid currentColor;
+    opacity:0;
+    transform:scale(.6);
+    pointer-events:none;
+  }
+  .icon-btn:active, .mnav__close:active, .vmodal__close:active{
+    transform: scale(.88);
+  }
+  .icon-btn:active::after, .mnav__close:active::after, .vmodal__close:active::after{
+    animation: ring-pulse .5s ease-out;
+  }
+  @keyframes ring-pulse{
+    0%{ opacity:.5; transform:scale(.6); }
+    100%{ opacity:0; transform:scale(1.5); }
+  }
+  /* keep the close-button's rotate-on-hover from fighting the press squeeze */
+  .mnav__close:active, .vmodal__close:active{ transform: scale(.88); }
+
+  /* ----------------------------------------------------------------
+     4) TEXT / LINK CONTROLS — colour flash + underline sweep.
+     (.explore, .credit-link, .mnav__sublink)
+     ---------------------------------------------------------------- */
+  .explore{ position: relative; }
+  .explore::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:-3px;
+    width:100%; height:1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    opacity:.7;
+    transition: transform .28s ease;
+  }
+  .explore:active::after{ transform: scaleX(1); }
+  .explore:active{ color: var(--taupe); }
+
+  .credit-link{ transition: color .18s ease, border-color .18s ease, background .2s ease; }
+  .credit-link:active{ color: var(--ink); background: rgba(155,139,124,.16); }
+
+  .mnav__sublink{ transition: color .16s ease, padding-left .16s ease, background .2s ease; }
+  .mnav__sublink:active{ background: rgba(155,139,124,.18); color: var(--ink); }
+
+  /* ----------------------------------------------------------------
+     5) MENU ROWS & TOGGLE — fill flash on press.
+     (.mnav__item, .mnav__toggle)
+     ---------------------------------------------------------------- */
+  .mnav__item{ transition: background .18s ease, padding-left .18s ease,
+               opacity .38s ease, transform .38s ease; }
+  .mnav__item:active{ background:#E3DACB; }
+  .mnav__toggle:active{ background:#E3DACB; }
+
+  /* honour reduced-motion: keep instant feedback, drop the animations */
+  @media (prefers-reduced-motion: reduce){
+    .tap-ink{ animation: none; display: none; }
+    .icon-btn:active::after, .mnav__close:active::after, .vmodal__close:active::after{ animation: none; }
+    .explore::after{ transition: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -1073,6 +1213,53 @@
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && modal.classList.contains('open')){ closeModal(); }
   });
+})();
+</script>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){ return; }
+
+  // pill / CTA style controls get the soft ink ripple
+  var sel = '.btn, .ob, .btn-shop, .mnav__cta, .vmodal__btn';
+
+  function spawnInk(el, x, y){
+    if(getComputedStyle(el).position === 'static'){ el.style.position = 'relative'; }
+    if(getComputedStyle(el).overflow !== 'hidden'){ el.style.overflow = 'hidden'; }
+    el.classList.add('tap-press');
+
+    var rect = el.getBoundingClientRect();
+    var cx = (x == null ? rect.width/2  : x - rect.left);
+    var cy = (y == null ? rect.height/2 : y - rect.top);
+    // diameter = reach to the farthest corner, so it always covers the button
+    var dx = Math.max(cx, rect.width - cx);
+    var dy = Math.max(cy, rect.height - cy);
+    var d  = Math.ceil(Math.hypot(dx, dy)) * 2;
+
+    var ink = document.createElement('span');
+    ink.className = 'tap-ink';
+    ink.style.width = ink.style.height = d + 'px';
+    ink.style.left = (cx - d/2) + 'px';
+    ink.style.top  = (cy - d/2) + 'px';
+    el.appendChild(ink);
+    ink.addEventListener('animationend', function(){ ink.remove(); });
+  }
+
+  function onDown(e){
+    var el = e.target.closest(sel);
+    if(!el){ return; }
+    var pt = (e.touches && e.touches[0]) ? e.touches[0] : e;
+    spawnInk(el, pt.clientX, pt.clientY);
+  }
+
+  // pointerdown covers mouse + touch + pen; fall back to touchstart
+  if(window.PointerEvent){
+    document.addEventListener('pointerdown', onDown, { passive: true });
+  } else {
+    document.addEventListener('touchstart', onDown, { passive: true });
+    document.addEventListener('mousedown', onDown, { passive: true });
+  }
 })();
 </script>
 
