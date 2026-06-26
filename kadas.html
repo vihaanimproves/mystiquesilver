@@ -267,6 +267,306 @@
     .site-foot{animation-delay:.15s;}
     @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
   }
+
+
+
+  /* ---------- SLIDE-IN MENU (right drawer) ---------- */
+  /* hamburger icon morph */
+  /* hamburger only opens; the panel's own X / backdrop / Esc close it (panel covers header when open) */
+  .topbar [aria-label="Open menu"] .icon-x{display:none;}
+
+  .mnav{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .mnav::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(33,29,25,0);
+    transition:background .38s ease;
+  }
+  .mnav.open{visibility:visible;pointer-events:auto;}
+  .mnav.open::before{background:rgba(33,29,25,.42);}
+
+  .mnav__panel{
+    position:absolute;
+    top:0;left:0;bottom:0;
+    width:min(84vw,344px);
+    background:#F1EBE2;
+    display:flex;
+    flex-direction:column;
+    transform:translateX(-104%);
+    transition:transform .4s cubic-bezier(.22,.6,.36,1);
+    box-shadow:14px 0 50px rgba(33,29,25,.26);
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .mnav.open .mnav__panel{transform:translateX(0);}
+
+  .mnav__top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 22px 18px;
+    border-bottom:1px solid var(--line);
+    flex-shrink:0;
+  }
+  .mnav__brand{line-height:1;}
+  .mnav__brand .name{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:.16em;padding-left:.16em;color:var(--ink);}
+  .mnav__brand .sub{display:block;margin-top:5px;font-size:8px;letter-spacing:.34em;font-weight:600;color:var(--muted);}
+  .mnav__close{
+    width:38px;height:38px;
+    display:grid;place-items:center;
+    background:#E4DACE;border:0;border-radius:50%;
+    cursor:pointer;color:var(--ink);
+    transition:background .2s, transform .25s;
+    flex-shrink:0;
+  }
+  .mnav__close:hover{background:#D9CDBF;transform:rotate(90deg);}
+
+  .mnav__nav{flex:1;display:flex;flex-direction:column;padding:6px 0;}
+
+  /* a row = item; some rows are split (label + submenu toggle) */
+  .mnav__row{border-bottom:1px solid rgba(207,195,180,.5);}
+  .mnav__row:last-of-type{border-bottom:none;}
+
+  .mnav__item{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:16px 22px;
+    text-decoration:none;
+    color:var(--ink);
+    transition:background .18s ease, padding-left .18s ease,
+               opacity .38s ease, transform .38s ease;
+    /* staggered fade-in initial state */
+    opacity:0;
+    transform:translateX(-18px);
+  }
+  .mnav__item.in{opacity:1;transform:translateX(0);}
+  .mnav__item:hover{background:#EBE3D7;padding-left:26px;}
+
+  .mnav__ico{flex:none;width:21px;height:21px;color:var(--taupe);display:grid;place-items:center;transition:color .2s;}
+  .mnav__ico svg{width:20px;height:20px;}
+  .mnav__item:hover .mnav__ico{color:var(--ink-soft);}
+
+  .mnav__label{
+    flex:1;
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:18.5px;
+    letter-spacing:.01em;
+    color:var(--ink);
+  }
+  .mnav__chev{flex:none;color:#C8BBAB;display:grid;place-items:center;transition:transform .18s, color .2s;}
+  .mnav__chev svg{width:16px;height:16px;}
+  .mnav__item:hover .mnav__chev{transform:translateX(3px);color:var(--taupe);}
+
+  /* split row: label link + separate submenu toggle button */
+  .mnav__split{display:flex;align-items:stretch;}
+  .mnav__split .mnav__item{flex:1;}
+  .mnav__toggle{
+    flex:none;
+    width:58px;
+    background:transparent;
+    border:0;
+    border-left:1px solid rgba(207,195,180,.5);
+    cursor:pointer;
+    color:var(--ink-soft);
+    display:grid;place-items:center;
+    /* match the staggered fade of its row */
+    opacity:0;
+    transform:translateX(-18px);
+    transition:opacity .38s ease, transform .38s ease, background .18s ease;
+  }
+  .mnav__toggle.in{opacity:1;transform:translateX(0);}
+  .mnav__toggle:hover{background:#EBE3D7;}
+  .mnav__toggle svg{width:16px;height:16px;transition:transform .3s ease;}
+  .mnav__toggle[aria-expanded="true"] svg{transform:rotate(90deg);}
+
+  /* active page highlight */
+  .mnav__item.active{background:#EBE3D7;border-left:3px solid var(--taupe);padding-left:19px;}
+  .mnav__item.active .mnav__ico,.mnav__item.active .mnav__label{color:var(--ink);}
+
+  /* submenu */
+  .mnav__sub{
+    list-style:none;margin:0;padding:0;
+    max-height:0;overflow:hidden;
+    background:rgba(225,216,204,.55);
+    transition:max-height .38s ease;
+  }
+  .mnav__sub.open{max-height:520px;}
+  .mnav__sub li + li{border-top:1px solid rgba(207,195,180,.45);}
+  .mnav__sublink{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 22px 13px 30px;
+    font-family:var(--sans);
+    font-size:12.5px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);text-decoration:none;
+    transition:color .16s ease, padding-left .16s ease;
+  }
+  .mnav__sublink:hover{color:var(--ink);padding-left:34px;}
+  .mnav__sublink.active{color:var(--ink);background:rgba(155,139,124,.16);}
+  .mnav__sublink.active::before{background:var(--ink);}
+  .mnav__sublink::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--taupe);flex:none;}
+
+  /* bottom CTA */
+  .mnav__cta-wrap{padding:20px;border-top:1px solid var(--line);flex-shrink:0;}
+  .mnav__nudge{
+    display:flex;align-items:flex-start;gap:10px;
+    background:#E7DECF;border:1px solid rgba(155,139,124,.32);
+    border-radius:14px;padding:12px 14px;margin-bottom:14px;
+    opacity:0;transform:translateY(8px);
+    transition:opacity .4s ease .38s, transform .4s ease .38s;
+  }
+  .mnav.open .mnav__nudge{opacity:1;transform:translateY(0);}
+  .mnav__nudge svg{flex:none;width:17px;height:17px;color:var(--taupe);margin-top:1px;}
+  .mnav__nudge p{font-size:11.5px;line-height:1.55;color:var(--ink-soft);font-weight:500;margin:0;}
+  .mnav__cta{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;padding:14px 20px;
+    background:var(--btn);color:var(--btn-ink);
+    font-family:var(--sans);font-size:12px;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;
+    border-radius:14px;text-decoration:none;
+    box-shadow:0 10px 24px rgba(35,31,27,.22);
+    opacity:0;transform:translateY(10px);
+    transition:opacity .4s ease .45s, transform .4s ease .45s, background .2s;
+  }
+  .mnav.open .mnav__cta{opacity:1;transform:translateY(0);}
+  .mnav__cta:hover{background:#000;transform:translateY(-1px);}
+  .mnav__cta svg{flex:none;width:16px;height:16px;}
+
+  @media (prefers-reduced-motion:reduce){
+    .mnav__panel,.mnav::before,.mnav__sub,.mnav__toggle svg,
+    .mnav__item,.mnav__toggle,.mnav__nudge,.mnav__cta{transition:none;}
+    .mnav__item,.mnav__toggle{opacity:1;transform:none;}
+  }
+
+
+  /* ---------- AGENCY CREDIT + CONTACT MODAL ---------- */
+  .site-foot .credit{
+    margin:10px 0 0;
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:.02em;
+  }
+  .site-foot .credit .heart{color:#B4654A;font-style:normal;}
+  .credit-link{
+    color:var(--ink-soft);
+    font-weight:700;
+    text-decoration:none;
+    border:0;
+    background:transparent;
+    cursor:pointer;
+    font:inherit;
+    padding:0;
+    border-bottom:1px solid var(--line-soft);
+    transition:color .16s ease, border-color .16s ease;
+  }
+  .credit-link:hover{color:var(--ink);border-color:var(--taupe);}
+
+  .vmodal{
+    position:fixed;
+    inset:0;
+    z-index:300;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:26px;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .vmodal::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(33,29,25,0);
+    transition:background .3s ease;
+  }
+  .vmodal.open{visibility:visible;pointer-events:auto;}
+  .vmodal.open::before{background:rgba(33,29,25,.5);}
+
+  .vmodal__card{
+    position:relative;
+    width:100%;
+    max-width:340px;
+    background:#F4EFE7;
+    border-radius:22px;
+    padding:30px 26px 26px;
+    text-align:center;
+    box-shadow:0 30px 70px rgba(33,29,25,.4);
+    transform:translateY(14px) scale(.97);
+    opacity:0;
+    transition:transform .32s cubic-bezier(.22,.6,.36,1), opacity .32s ease;
+  }
+  .vmodal.open .vmodal__card{transform:translateY(0) scale(1);opacity:1;}
+
+  .vmodal__close{
+    position:absolute;
+    top:14px;right:14px;
+    width:32px;height:32px;
+    display:grid;place-items:center;
+    background:#E4DACE;border:0;border-radius:50%;
+    cursor:pointer;color:var(--ink);
+    transition:background .2s, transform .25s;
+  }
+  .vmodal__close:hover{background:#D9CDBF;transform:rotate(90deg);}
+
+  .vmodal__spark{width:20px;color:var(--taupe);margin:2px auto 14px;display:block;}
+  .vmodal__title{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:23px;
+    line-height:1.2;
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .vmodal__sub{
+    font-size:12.5px;
+    line-height:1.55;
+    color:var(--muted);
+    font-weight:500;
+    margin:0 0 22px;
+  }
+  .vmodal__actions{display:flex;flex-direction:column;gap:11px;}
+  .vmodal__btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:11px;
+    width:100%;
+    padding:14px 18px;
+    border-radius:13px;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform .15s ease, opacity .2s ease, background .2s ease;
+  }
+  .vmodal__btn svg{flex:none;width:18px;height:18px;}
+  .vmodal__btn:active{transform:scale(.98);}
+  .vmodal__btn.email{background:var(--btn);color:var(--btn-ink);box-shadow:0 10px 24px rgba(35,31,27,.2);}
+  .vmodal__btn.email:hover{background:#000;}
+  .vmodal__btn.wa{background:#FBF7F1;color:var(--ink);border:1px solid var(--line-soft);}
+  .vmodal__btn.wa:hover{border-color:var(--taupe);}
+  .vmodal__hint{
+    margin:16px 0 0;
+    font-size:11px;
+    color:var(--taupe);
+    letter-spacing:.04em;
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .vmodal__card,.vmodal::before{transition:none;}
+  }
+
 </style>
 </head>
 <body>
@@ -274,9 +574,12 @@
 
   <!-- HEADER -->
   <header class="topbar">
-    <button class="icon-btn" aria-label="Open menu">
-      <svg width="26" height="16" viewBox="0 0 26 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+    <button class="icon-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mnav">
+      <svg class="icon-bars" width="26" height="16" viewBox="0 0 26 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
         <line x1="1" y1="2.5" x2="25" y2="2.5"/><line x1="1" y1="8" x2="25" y2="8"/><line x1="1" y1="13.5" x2="25" y2="13.5"/>
+      </svg>
+      <svg class="icon-x" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+        <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
       </svg>
     </button>
     <a class="brand" href="index.html" aria-label="MYSTIQUE home">
@@ -290,6 +593,83 @@
       </svg>
     </button>
   </header>
+
+  <!-- SLIDE-IN MENU -->
+  <div class="mnav" id="mnav" data-mnav role="dialog" aria-label="Navigation menu" aria-modal="true">
+    <div class="mnav__panel">
+
+      <div class="mnav__top">
+        <div class="mnav__brand">
+          <span class="name">MYSTIQUE</span>
+          <span class="sub">925 SILVER JEWELLERY</span>
+        </div>
+        <button class="mnav__close" data-mnav-close aria-label="Close menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+        </button>
+      </div>
+
+      <nav class="mnav__nav" aria-label="Mobile navigation">
+        <div class="mnav__row">
+          <a class="mnav__item" data-mnav-item href="index.html">
+            <span class="mnav__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 11 L12 4 L20 11"/><path d="M6 9.5 V20 H18 V9.5"/></svg></span>
+            <span class="mnav__label">Home</span>
+            <span class="mnav__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9,5 16,12 9,19"/></svg></span>
+          </a>
+        </div>
+
+        <div class="mnav__row">
+          <a class="mnav__item" data-mnav-item href="bestsellers.html">
+            <span class="mnav__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 L14.6 8.9 L20.5 9.7 L16.2 13.8 L17.3 19.6 L12 16.8 L6.7 19.6 L7.8 13.8 L3.5 9.7 L9.4 8.9 Z"/></svg></span>
+            <span class="mnav__label">Best Sellers</span>
+            <span class="mnav__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9,5 16,12 9,19"/></svg></span>
+          </a>
+        </div>
+
+        <div class="mnav__row">
+          <div class="mnav__split">
+            <a class="mnav__item" data-mnav-item href="collections.html">
+              <span class="mnav__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.4"/></svg></span>
+              <span class="mnav__label">Collections</span>
+            </a>
+            <button class="mnav__toggle" data-mnav-toggle aria-expanded="false" aria-controls="mnav-collections-sub" aria-label="Show collections">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9,5 16,12 9,19"/></svg>
+            </button>
+          </div>
+          <ul class="mnav__sub" id="mnav-collections-sub" data-mnav-sub>
+            <li><a class="mnav__sublink" href="necklaces.html">Necklaces</a></li>
+            <li><a class="mnav__sublink" href="rings.html">Rings</a></li>
+            <li><a class="mnav__sublink" href="bracelets.html">Bracelets</a></li>
+            <li><a class="mnav__sublink" href="earrings.html">Earrings</a></li>
+            <li><a class="mnav__sublink" href="pendant-sets.html">Pendant Sets</a></li>
+            <li><a class="mnav__sublink" href="kadas.html">Kadas</a></li>
+          </ul>
+        </div>
+
+        <div class="mnav__row">
+          <a class="mnav__item" data-mnav-item href="about.html">
+            <span class="mnav__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 19.5 C5 15.9 8.1 14 12 14 C15.9 14 19 15.9 19 19.5"/></svg></span>
+            <span class="mnav__label">About Us</span>
+            <span class="mnav__chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9,5 16,12 9,19"/></svg></span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="mnav__cta-wrap">
+        <div class="mnav__nudge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.6" r="0.6" fill="currentColor"/></svg>
+          <p>Orders are taken through Instagram &amp; WhatsApp only. Message us with the piece you love.</p>
+        </div>
+        <a class="mnav__cta" href="https://wa.me/918850813570" target="_blank" rel="noopener" aria-label="Message us on WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L6.2 15.6 A7 7 0 1 1 8.4 17.8 Z"/></svg>
+          Order on WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
+
 
   <!-- HERO -->
   <section class="hero">
@@ -364,6 +744,7 @@
     </div>
 
     <p class="copyright">© 2026 MYSTIQUE. All rights reserved.</p>
+    <p class="credit">Made with <span class="heart" aria-label="love">&#10084;</span> by <button type="button" class="credit-link" data-vmodal-open>Vihaan</button></p>
   </footer>
 
 </div>
@@ -429,5 +810,140 @@
   }
 })();
 </script>
+
+<script>
+(function(){
+  var openBtn  = document.querySelector('.topbar [aria-label="Open menu"]');
+  var mnav     = document.querySelector('[data-mnav]');
+  if(!openBtn || !mnav){ return; }
+  var closeBtn = mnav.querySelector('[data-mnav-close]');
+  var items    = mnav.querySelectorAll('[data-mnav-item]');
+  var toggle   = mnav.querySelector('[data-mnav-toggle]');
+  var togRow   = toggle ? toggle.closest('.mnav__split') : null;
+  var sub      = mnav.querySelector('[data-mnav-sub]');
+
+  // staggered set: each nav item + the collections toggle, in document order
+  var staggered = [];
+  items.forEach(function(it){
+    staggered.push(it);
+    var row = it.closest('.mnav__split');
+    if(row){ var t = row.querySelector('[data-mnav-toggle]'); if(t) staggered.push(t); }
+  });
+
+  function openMenu(){
+    mnav.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    openBtn.setAttribute('aria-expanded','true');
+    openBtn.classList.add('is-open');
+    staggered.forEach(function(el, i){
+      el.classList.remove('in');
+      setTimeout(function(){ el.classList.add('in'); }, 120 + i * 65);
+    });
+  }
+  function closeMenu(){
+    mnav.classList.remove('open');
+    document.body.style.overflow = '';
+    openBtn.setAttribute('aria-expanded','false');
+    openBtn.classList.remove('is-open');
+    staggered.forEach(function(el){ el.classList.remove('in'); });
+  }
+
+  openBtn.addEventListener('click', openMenu);
+  if(closeBtn){ closeBtn.addEventListener('click', closeMenu); }
+
+  // backdrop click (outside the panel)
+  mnav.addEventListener('click', function(e){ if(e.target === mnav){ closeMenu(); } });
+  // any real link closes the menu
+  mnav.querySelectorAll('a[href]').forEach(function(a){ a.addEventListener('click', closeMenu); });
+  // escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && mnav.classList.contains('open')){ closeMenu(); }
+  });
+
+  // collections submenu expand/collapse
+  if(toggle && sub){
+    toggle.addEventListener('click', function(){
+      var expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      sub.classList.toggle('open', !expanded);
+    });
+  }
+
+  // highlight the active page (top-level item or a category sublink)
+  var current = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  var matchedTop = false;
+  items.forEach(function(a){
+    var href = (a.getAttribute('href') || '').toLowerCase();
+    if(href === current){ a.classList.add('active'); matchedTop = true; }
+  });
+  if(!matchedTop && sub){
+    var subLinks = sub.querySelectorAll('a[href]');
+    var inSub = false;
+    subLinks.forEach(function(a){
+      if((a.getAttribute('href') || '').toLowerCase() === current){
+        a.classList.add('active'); inSub = true;
+      }
+    });
+    // on a category page, mark Collections active and pre-expand the submenu
+    if(inSub){
+      if(togRow){ var lbl = togRow.querySelector('[data-mnav-item]'); if(lbl) lbl.classList.add('active'); }
+      if(toggle){ toggle.setAttribute('aria-expanded','true'); }
+      sub.classList.add('open');
+    }
+  }
+})();
+</script>
+
+<!-- CONTACT MODAL (agency) -->
+<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-labelledby="vmodal-title" aria-hidden="true">
+  <div class="vmodal__card">
+    <button class="vmodal__close" data-vmodal-close aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <svg class="vmodal__spark" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M9 1 Q10.2 7.2 16 8 Q10.2 8.8 9 15 Q7.8 8.8 2 8 Q7.8 7.2 9 1 Z"/></svg>
+    <h2 class="vmodal__title" id="vmodal-title">Let&rsquo;s build together</h2>
+    <p class="vmodal__sub">Need a website like this one? Get in touch with Vihaan.</p>
+    <div class="vmodal__actions">
+      <a class="vmodal__btn email" href="mailto:vihaanjas4@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.2"/><path d="M4 7 L12 13 L20 7"/></svg>
+        Contact via Email
+      </a>
+      <a class="vmodal__btn wa" href="https://wa.me/919987774414" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L6.2 15.6 A7 7 0 1 1 8.4 17.8 Z"/></svg>
+        Contact via WhatsApp
+      </a>
+    </div>
+    <p class="vmodal__hint">vihaanjas4@gmail.com&nbsp;&middot;&nbsp;+91&nbsp;99877&nbsp;74414</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal = document.getElementById('vmodal');
+  if(!modal){ return; }
+  var openers = document.querySelectorAll('[data-vmodal-open]');
+  var closeBtn = modal.querySelector('[data-vmodal-close]');
+
+  function openModal(){
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    if(closeBtn){ setTimeout(function(){ closeBtn.focus(); }, 50); }
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  openers.forEach(function(btn){ btn.addEventListener('click', openModal); });
+  if(closeBtn){ closeBtn.addEventListener('click', closeModal); }
+  modal.addEventListener('click', function(e){ if(e.target === modal){ closeModal(); } });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('open')){ closeModal(); }
+  });
+})();
+</script>
+
 </body>
 </html>
