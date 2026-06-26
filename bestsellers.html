@@ -145,29 +145,8 @@
     font-size:19px;
     line-height:1.18;
     color:var(--ink);
-    margin:0 0 8px;
-  }
-  .prod .pprice{
-    font-size:15px;
-    font-weight:700;
-    color:var(--ink-soft);
     margin:0;
   }
-  .fav{
-    flex:none;
-    align-self:flex-end;
-    width:38px;height:38px;
-    border-radius:50%;
-    border:0;
-    background:transparent;
-    color:var(--taupe);
-    cursor:pointer;
-    display:grid;
-    place-items:center;
-    transition:color .18s ease, transform .18s ease;
-  }
-  .fav:active{transform:scale(.92);}
-  .fav:hover{color:var(--ink-soft);}
 
   /* ---------- TESTIMONIAL ---------- */
   .testi{
@@ -196,8 +175,7 @@
     line-height:1.18;
     margin:0 0 16px;
   }
-  .testi .stars{color:var(--ink);font-size:18px;letter-spacing:3px;margin-bottom:12px;}
-  .testi .rated{font-size:14px;font-weight:700;line-height:1.45;color:var(--ink-soft);margin:0 0 26px;}
+  .testi .stars{color:var(--ink);font-size:18px;letter-spacing:3px;margin-bottom:26px;}
   .testi-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
   .testi-photos .cphoto{
     width:100%;
@@ -207,9 +185,6 @@
     background:linear-gradient(150deg,var(--thumb-a),var(--thumb-b));
     box-shadow:0 10px 22px rgba(74,61,48,.16);
   }
-  .dots{display:flex;justify-content:center;gap:7px;}
-  .dots span{width:7px;height:7px;border-radius:50%;background:rgba(74,61,48,.32);}
-  .dots span.on{background:var(--ink);}
 
   /* ---------- NEWSLETTER ---------- */
   .news{
@@ -340,12 +315,7 @@
       <span class="name">MYSTIQUE</span>
       <span class="sub">925 SILVER JEWELLERY</span>
     </a>
-    <button class="icon-btn" aria-label="Shopping bag">
-      <svg width="24" height="26" viewBox="0 0 26 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-        <path d="M5 9 H21 L19.7 25 A1.5 1.5 0 0 1 18.2 26.3 H7.8 A1.5 1.5 0 0 1 6.3 25 Z"/>
-        <path d="M8.7 9 V6.5 A4.3 4.3 0 0 1 17.3 6.5 V9"/>
-      </svg>
-    </button>
+    <span class="icon-btn" aria-hidden="true" style="width:24px;height:26px;"></span>
   </header>
 
   <!-- HERO -->
@@ -373,47 +343,31 @@
 
     <div class="plist">
       <article class="prod">
-        <img class="pimg" src="images/star-light-necklace.jpg" alt="Star Light Necklace">
+        <img class="pimg" src="images/bs1.jpg" alt="Best Seller">
         <div class="pmeta">
           <h3 class="pname">Star Light Necklace</h3>
-          <p class="pprice">₹1,499</p>
         </div>
-        <button class="fav" aria-label="Add Star Light Necklace to wishlist">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 20 C12 20 3.6 14.6 3.6 8.9 C3.6 6 5.9 4.1 8.3 4.1 C10.1 4.1 11.5 5.2 12 6.4 C12.5 5.2 13.9 4.1 15.7 4.1 C18.1 4.1 20.4 6 20.4 8.9 C20.4 14.6 12 20 12 20 Z"/></svg>
-        </button>
       </article>
 
       <article class="prod">
-        <img class="pimg" src="images/twist-ring.jpg" alt="Twist Ring">
-        <div class="pmeta">
-          <h3 class="pname">Twist Ring</h3>
-          <p class="pprice">₹1,199</p>
-        </div>
-        <button class="fav" aria-label="Add Twist Ring to wishlist">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 20 C12 20 3.6 14.6 3.6 8.9 C3.6 6 5.9 4.1 8.3 4.1 C10.1 4.1 11.5 5.2 12 6.4 C12.5 5.2 13.9 4.1 15.7 4.1 C18.1 4.1 20.4 6 20.4 8.9 C20.4 14.6 12 20 12 20 Z"/></svg>
-        </button>
-      </article>
-
-      <article class="prod">
-        <img class="pimg" src="images/minimal-hoops.jpg" alt="Minimal Hoops">
-        <div class="pmeta">
-          <h3 class="pname">Minimal Hoops</h3>
-          <p class="pprice">₹1,099</p>
-        </div>
-        <button class="fav" aria-label="Add Minimal Hoops to wishlist">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 20 C12 20 3.6 14.6 3.6 8.9 C3.6 6 5.9 4.1 8.3 4.1 C10.1 4.1 11.5 5.2 12 6.4 C12.5 5.2 13.9 4.1 15.7 4.1 C18.1 4.1 20.4 6 20.4 8.9 C20.4 14.6 12 20 12 20 Z"/></svg>
-        </button>
-      </article>
-
-      <article class="prod">
-        <img class="pimg" src="images/dainty-star-bracelet.jpg" alt="Dainty Star Bracelet">
+        <img class="pimg" src="products/bracelets/1.jpg" alt="Dainty Star Bracelet">
         <div class="pmeta">
           <h3 class="pname">Dainty Star Bracelet</h3>
-          <p class="pprice">₹1,399</p>
         </div>
-        <button class="fav" aria-label="Add Dainty Star Bracelet to wishlist">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 20 C12 20 3.6 14.6 3.6 8.9 C3.6 6 5.9 4.1 8.3 4.1 C10.1 4.1 11.5 5.2 12 6.4 C12.5 5.2 13.9 4.1 15.7 4.1 C18.1 4.1 20.4 6 20.4 8.9 C20.4 14.6 12 20 12 20 Z"/></svg>
-        </button>
+      </article>
+
+      <article class="prod">
+        <img class="pimg" src="products/bracelets/2.jpg" alt="Twined Cuff Bracelet">
+        <div class="pmeta">
+          <h3 class="pname">Twined Cuff Bracelet</h3>
+        </div>
+      </article>
+
+      <article class="prod">
+        <img class="pimg" src="products/kadas/1.jpg" alt="Classic Silver Kada">
+        <div class="pmeta">
+          <h3 class="pname">Classic Silver Kada</h3>
+        </div>
       </article>
     </div>
   </section>
@@ -423,13 +377,11 @@
     <p class="quote" aria-hidden="true">&#8220;</p>
     <h2>Quality you can feel.<br>Trust you can wear.</h2>
     <div class="stars" aria-label="Rated 4.9 out of 5">★★★★★</div>
-    <p class="rated">Rated 4.9/5 by<br>1000+ happy customers</p>
     <div class="testi-photos">
       <img class="cphoto" src="images/customer-1.jpg" alt="Customer wearing a silver bracelet">
       <img class="cphoto" src="images/customer-2.jpg" alt="Customer wearing a silver bracelet">
       <img class="cphoto" src="images/customer-3.jpg" alt="Customer wearing silver bracelets">
     </div>
-    <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
   </section>
 
   <!-- FOOTER -->
