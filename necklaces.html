@@ -53,20 +53,36 @@
 
   /* ---------- HEADER (over photo, white) ---------- */
   .topbar{
-    position:absolute;
-    inset:0 0 auto 0;
-    z-index:9;
+    --hp:0;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    margin:0 auto;
+    width:100%;
+    max-width:var(--maxw);
+    z-index:50;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:18px 22px;
     color:#FBF6F0;
+    background:rgba(236,228,219,var(--hp));
+    box-shadow:0 6px 22px rgba(33,29,25,calc(var(--hp) * 0.12));
+    -webkit-backdrop-filter:blur(calc(var(--hp) * 14px));
+    backdrop-filter:blur(calc(var(--hp) * 14px));
+    transition:color .35s ease;
+    animation:none !important;
   }
+  .topbar.scrolled{ color:var(--ink); }
   .icon-btn{
     background:transparent;border:0;padding:4px;color:inherit;cursor:pointer;line-height:0;
     filter:drop-shadow(0 1px 6px rgba(40,33,27,.35));
+    transition:filter .35s ease;
   }
-  .brand{text-align:center;line-height:1;filter:drop-shadow(0 1px 8px rgba(40,33,27,.35));}
+  .topbar.scrolled .icon-btn{filter:none;}
+  .brand{text-align:center;line-height:1;filter:drop-shadow(0 1px 8px rgba(40,33,27,.35));transition:filter .35s ease;}
+  .topbar.scrolled .brand{filter:none;}
   .brand .name{font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:.16em;padding-left:.16em;}
   .brand .sub{display:block;margin-top:5px;font-size:8px;letter-spacing:.34em;font-weight:600;}
 
@@ -1128,6 +1144,35 @@
     document.addEventListener('touchstart', onDown, { passive: true });
     document.addEventListener('mousedown', onDown, { passive: true });
   }
+})();
+</script>
+
+<script>
+(function(){
+  var topbar = document.querySelector('.topbar');
+  var hero   = document.querySelector('.hero');
+  if(!topbar || !hero){ return; }
+
+  var ticking = false;
+  var heroHeight = hero.getBoundingClientRect().height || 1;
+
+  function update(){
+    ticking = false;
+    var p = Math.min(Math.max(window.scrollY / heroHeight, 0), 1);
+    topbar.style.setProperty('--hp', p.toFixed(3));
+    topbar.classList.toggle('scrolled', p > 0.55);
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function(){
+    heroHeight = hero.getBoundingClientRect().height || 1;
+    update();
+  }, { passive: true });
+
+  update();
 })();
 </script>
 
